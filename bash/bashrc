@@ -107,7 +107,7 @@ function prompt() {
 		fi
 	fi
 
-	prompt='\[\e[0;32m\][\#]\[\e[00m\]\[\e[1;31m\][\u\[\e[0;37m\]@\h\[\e[1;31m\]]\[\e[00m\]\[\e[0;33m\]$(working_directory)\[\e[00m\]'
+	prompt='\[\e[00m\]\[\e[1;31m\][\u\[\e[0;37m\]@\h\[\e[1;31m\]]\[\e[00m\]\[\e[0;33m\]$(working_directory)\[\e[00m\]'
 	PS1=$prompt$exit_status
 }
 
@@ -320,6 +320,7 @@ alias df='df -h'
 alias du='du -h'
 alias vi='vim'
 alias cd=cd_func
+alias tags='~/scripts/cscope_gen.sh'
 
 
 # Variables ---------------------------------------------------------------
