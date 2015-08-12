@@ -324,6 +324,9 @@ vnoremap > >gv
 " Make :W same as :w, and :Q same as :q
 command! W :w
 command! Q :q
+
+" Sudo to write
+cnoremap w!! w !sudo tee % >/dev/null
 " }}}
 
 
