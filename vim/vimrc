@@ -79,11 +79,6 @@ let g:rainbow_conf = {
 \   }
 \}
 
-" Make base16 work with extended color space of shell
-if $TERM != "putty-256color"
-	let g:base16colorspace=256
-endif
-
 let g:lightline = {
 	\ 'active': {
 	\   'left': [ [ 'mode', 'paste' ], [ 'filename' ], [ 'linenumber' ] ],
@@ -105,6 +100,10 @@ let g:startify_custom_header =
 let g:startify_session_dir = "$HOME/.vim/sessions"
 " }}}
 
+" Make base16 work with extended color space of shell
+if $TERM != "putty-256color"
+	let g:base16colorspace=256
+endif
 
 " General Options --------------------------------------------------- {{{
 let mapleader=","				" Set <leader> to ,
@@ -282,16 +281,16 @@ nnoremap <left> <nop>
 nnoremap <right> <nop>
 
 " Map key for TagList plugin (show functions)
-nnoremap ff :TlistOpen<CR>
+nnoremap <leader>f :TlistOpen<CR>
 
 " Map key for DiffSaved function
-nnoremap shit :DiffSaved<CR>
+nnoremap <leader>shit :DiffSaved<CR>
 
 " Map key/command for PlugUpdate function (update plugins)
-nnoremap update :PlugUpdate<CR>
+nnoremap <leader>update :PlugUpdate<CR>
 
 " Map key/command for PlugClean function (clean plugins)
-nnoremap clean :PlugClean!<CR>
+nnoremap <leader>clean :PlugClean!<CR>
 
 " Make j/k move one single row instead of one single line
 nnoremap j gj
@@ -468,3 +467,34 @@ if has('persistent_undo')
 	set undolevels=1000			" How many undos
 	set undoreload=10000		" number of lines to save for undo
 endif
+
+" Make QuickScope active only after typing f/t/F/T	---------------- {{{
+function! Quick_scope_selective(movement)
+	let needs_disabling = 0
+	if !g:qs_enable
+		QuickScopeToggle
+		redraw
+		let needs_disabling = 1
+	endif
+
+	let letter = nr2char(getchar())
+
+	if needs_disabling
+		QuickScopeToggle
+	endif
+
+	return a:movement . letter
+endfunction
+
+let g:qs_enable = 0
+
+nnoremap <expr> <silent> f Quick_scope_selective('f')
+nnoremap <expr> <silent> F Quick_scope_selective('F')
+nnoremap <expr> <silent> t Quick_scope_selective('t')
+nnoremap <expr> <silent> T Quick_scope_selective('T')
+vnoremap <expr> <silent> f Quick_scope_selective('f')
+vnoremap <expr> <silent> F Quick_scope_selective('F')
+vnoremap <expr> <silent> t Quick_scope_selective('t')
+vnoremap <expr> <silent> T Quick_scope_selective('T')
+
+" }}}
