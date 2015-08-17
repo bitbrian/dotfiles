@@ -1,0 +1,204 @@
+" Settings specific to plugins
+
+" Plugins ------------------------------------------------------------ {{{
+" If vim-plug isn't installed, install it. If it is installed, update
+" it and activate the bundles
+let plug_vim_initialized=1
+let plug_vim=expand('$HOME/.vim/autoload/plug.vim')
+if !filereadable(plug_vim)
+	echo "Installing vim-plug..."
+	echo ""
+	silent !curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	let plug_vim_initialized=0
+endif
+call plug#begin('$HOME/.vim/bundle')
+
+" Plugins here
+Plug 'https://github.com/itchyny/lightline.vim.git'
+Plug 'https://github.com/vim-scripts/taglist.vim.git', { 'on': 'TlistOpen' }
+Plug 'https://github.com/airblade/vim-gitgutter.git'
+Plug 'https://github.com/ciaranm/detectindent'
+Plug 'https://github.com/Lokaltog/vim-easymotion.git'
+Plug 'https://github.com/majutsushi/tagbar.git'
+Plug 'https://github.com/vim-scripts/Mark--Karkat'
+Plug 'https://github.com/kshenoy/vim-signature'
+Plug 'https://github.com/jamessan/vim-gnupg'
+Plug 'https://github.com/chriskempson/base16-vim'
+Plug 'https://github.com/justinmk/vim-syntax-extra'
+Plug 'https://github.com/ap/vim-buftabline'
+Plug 'https://github.com/junegunn/vim-peekaboo'
+Plug 'https://github.com/Yggdroot/indentLine'
+Plug 'https://github.com/mhinz/vim-startify'
+Plug 'https://github.com/luochen1990/rainbow'
+Plug 'https://github.com/NLKNguyen/papercolor-theme'
+Plug 'https://github.com/vim-scripts/unmaze.vim'
+Plug 'https://github.com/tpope/vim-commentary'
+Plug 'https://github.com/will133/vim-dirdiff'
+Plug 'https://github.com/unblevable/quick-scope'
+Plug 'https://github.com/irrationalistic/vim-tasks'
+
+call plug#end()
+
+if plug_vim_initialized==0
+	echo "Installing Plugs..."
+	echo ""
+	:PlugInstall
+endif
+
+" Plugin options
+let g:EasyMotion_leader_key = '<Leader><Leader>'
+let g:EasyMotion_smartcase = 1
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indentLine_char = '│'
+let g:buftabline_separators = 1
+let g:rainbow_active = 1
+
+let g:rainbow_conf = {
+\	'ctermfgs': ['darkred', 'darkgreen', 'brown', 'darkblue', 'yellow', 'lightgray'],
+\	'operators': '_,_',
+\	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+\	'separately': {
+\		'*': {},
+\		'vim': {
+\			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+\		},
+\		'html': {
+\			'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+\		},
+\	}
+\}
+
+let g:lightline = {
+	\ 'active': {
+	\	'left': [ [ 'mode', 'paste' ], [ 'filename' ], [ 'linenumber' ] ],
+	\	'right': [ ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ], ['funcname'] ]
+	\ },
+	\ 'component_function': {
+	\	'linenumber': 'MyLineNumber',
+	\	'filename': 'MyFilename',
+	\	'fileformat': 'MyFileformat',
+	\	'filetype': 'MyFiletype',
+	\	'fileencoding': 'MyFileencoding',
+	\	'mode': 'MyMode',
+	\	'funcname': 'MyFuncName',
+	\ }
+	\ }
+
+let g:startify_custom_header =
+	\ map(split(system('fortune | cowsay'), '\n'), '"	". v:val') + ['','']
+let g:startify_session_dir = "$HOME/.vim/sessions"
+
+" Make base16 work with extended color space of shell
+if $TERM != "putty-256color"
+	let g:base16colorspace=256
+endif
+" }}}
+
+
+" General Options --------------------------------------------------- {{{
+colorscheme base16-railscasts	" Use 'base16-railscasts' colorscheme
+if &diff
+	set bg=light
+	colorscheme PaperColor		" Use bright colorscheme for vimdiff
+endif
+" }}}
+
+
+" Key Mappings ------------------------------------------------------ {{{
+nnoremap \Q :nohlsearch<CR>:MarkClear<CR>
+
+" Map key for TagList plugin (show functions)
+nnoremap <leader>f :TlistOpen<CR>:setlocal mouse=a<CR>
+
+" Map key/command for PlugUpdate function (update plugins)
+nnoremap <leader>update :PlugUpdate<CR>
+
+" Map key/command for PlugClean function (clean plugins)
+nnoremap <leader>clean :PlugClean!<CR>
+
+" Map key for Tagbar plugin (show tags)
+nnoremap <silent> <leader>b :TagbarToggle<CR>
+" }}}
+
+
+" Functions --------------------------------------------------------- {{{
+function! MyModified()
+	return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! MyReadonly()
+	return &ft !~? 'help' && &readonly ? 'RO' : ''
+endfunction
+
+function! MyLineNumber()
+	return line(".")
+endfunction
+
+function! MyFilename()
+	let fname = expand('%:t')
+	return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+				\ ('' != fname ? fname : '[No Name]') .
+				\ ('' != MyModified() ? ' ' . MyModified() : '')
+endfunction
+
+function! MyFileformat()
+	return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! MyFiletype()
+	return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+endfunction
+
+function! MyFileencoding()
+	return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+endfunction
+
+function! MyMode()
+	let fname = expand('%:t')
+	return winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+
+function! MyFuncName()
+	return tagbar#currenttag('%s','')
+endfunction
+" }}}
+
+
+" Make QuickScope active only after typing f/t/F/T	---------------- {{{
+function! Quick_scope_selective(movement)
+	let needs_disabling = 0
+	if !g:qs_enable
+		QuickScopeToggle
+		redraw
+		let needs_disabling = 1
+	endif
+
+	let letter = nr2char(getchar())
+
+	if needs_disabling
+		QuickScopeToggle
+	endif
+
+	return a:movement . letter
+endfunction
+
+let g:qs_enable = 0
+
+nnoremap <expr> <silent> f Quick_scope_selective('f')
+nnoremap <expr> <silent> F Quick_scope_selective('F')
+nnoremap <expr> <silent> t Quick_scope_selective('t')
+nnoremap <expr> <silent> T Quick_scope_selective('T')
+vnoremap <expr> <silent> f Quick_scope_selective('f')
+vnoremap <expr> <silent> F Quick_scope_selective('F')
+vnoremap <expr> <silent> t Quick_scope_selective('t')
+vnoremap <expr> <silent> T Quick_scope_selective('T')
+
+" }}}
+
+
+" Exceptions ----------------------------------------------------- {{{
+if has("autocmd")
+	" This file takes exceptionally long to load with tagbar, so have tagbar ignore it
+	autocmd BufReadPre wlioctl.h let b:tagbar_ignore = 1
+endif
+" }}}
