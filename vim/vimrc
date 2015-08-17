@@ -226,6 +226,9 @@ command! Q :q
 
 " Make a shortcut to open todo file
 nnoremap <leader>todo :vsplit ~/.todo<CR>
+
+" Sudo to write
+cnoremap w!! w !sudo tee % >/dev/null
 " }}}
 
 
