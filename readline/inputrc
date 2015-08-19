@@ -13,8 +13,11 @@ $if mode=vi
 	set keymap vi-command
 	"\e[A":history-search-backward
 	"\e[B":history-search-forward
+	"\e[Z":""
 
 	set keymap vi-insert
 	"\e[A":history-search-backward
 	"\e[B":history-search-forward
+	"\e[Z":""
+
 $endif
