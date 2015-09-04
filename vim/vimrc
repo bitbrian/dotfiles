@@ -179,8 +179,8 @@ nnoremap \o :HightlighLongLines<CR>
 nnoremap <leader>j :setlocal encoding=sjis<CR>:setlocal fileencodings=cp932<CR>:e!<CR>
 
 " Allow Ctrl-j/k to scroll the screen without moving the cursor
-nnoremap <C-j> <C-y>
-nnoremap <C-k> <C-e>
+nnoremap <C-j> <C-e>
+nnoremap <C-k> <C-y>
 
 " Disable arrow keys to force learning hjkl
 nnoremap <up> <nop>
