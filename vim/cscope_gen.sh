@@ -17,3 +17,5 @@ find ${PWD}/ -name '*.py' \
 cscope -b -q -R -i cscope.files 2>/dev/null
 
 rm cscope.files
+
+ctags -R .

@@ -276,6 +276,30 @@ function! s:DiffWithSaved()
 	exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
 endfunction
 command! DiffSaved call s:DiffWithSaved()
+
+function! DelTagOfFile(tagfile)
+	let f = expand("%:t")
+	let f = escape(f, './')
+	let cmd = 'sed -i "/' . f . '/d" "' . a:tagfile . '"'
+	silent call system(cmd)
+endfunction
+
+function! UpdateTags()
+	let f = expand("%:t")
+
+	for tagfile in tagfiles()
+		if !filereadable(tagfile)
+			continue
+		endif
+
+		let tagfile = fnamemodify(tagfile, ':p')
+		let workdir = fnamemodify(tagfile, ':h')
+		let cmd = 'ctags --append --tag-relative=yes -f ' . tagfile . ' "' . f . '" &'
+		call DelTagOfFile(tagfile)
+		silent call system(cmd)
+		break
+	endfor
+endfunction
 " }}}
 
 
@@ -332,6 +356,9 @@ if has('persistent_undo')
 endif
 "  }}}
 
+" Testing ---------------------------------------------------------- {{{
+autocmd BufWritePost *.c,*.h call UpdateTags()
+"  }}}
 
 " Plugins ------------------------------------------------------------ {{{
 if filereadable(expand("$HOME/.vim/vimrc.plugins"))
