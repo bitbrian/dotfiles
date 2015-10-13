@@ -26,7 +26,7 @@ set hlsearch					" Highlight all search results
 set nocompatible				" Makes vim behave in a more useful way than vi-compatible mode
 set exrc						" Execute .vimrc files present in working directory
 set secure						" Restrict usage of some commands in non-default .vimrc files
-set tabstop=4					" Set tab size to 4 characters
+set tabstop=4					" Set number of visual spaces per <tab> to 4 characters
 set shiftwidth=4				" Set autoindent tab size
 syntax enable					" Enable syntax highlighting
 set bg=dark						" Set background to dark
@@ -55,7 +55,7 @@ endif
 
 " Currently unused
 "set expandtab					" Insert spaces instead of tab character
-"set softtabstop=4				" Set soft tab to 4 characters
+"set softtabstop=4				" Set number of spaces per <tab> when editing to 4 characters
 "set foldmethod=syntax			" Set the fold method to 'syntax'
 "set nofoldenable				" Start with no folding
 "set foldlevel=255				" Set the fold level to the highest value
