@@ -36,6 +36,10 @@ Plug 'https://github.com/tpope/vim-commentary'
 Plug 'https://github.com/will133/vim-dirdiff'
 Plug 'https://github.com/unblevable/quick-scope'
 Plug 'https://github.com/irrationalistic/vim-tasks'
+Plug 'https://github.com/sjl/gundo.vim'
+Plug 'https://github.com/nelstrom/vim-visual-star-search'
+Plug 'https://github.com/MattesGroeger/vim-bookmarks'
+Plug 'https://github.com/morhetz/gruvbox'
 
 call plug#end()
 
@@ -52,6 +56,8 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indentLine_char = '│'
 let g:buftabline_separators = 1
 let g:rainbow_active = 1
+let g:bookmark_sign = '♥'
+let g:bookmark_auto_save_file = $HOME.'/.vim/vim-bookmarks'
 
 let g:rainbow_conf = {
 \	'ctermfgs': ['darkred', 'darkgreen', 'brown', 'darkblue', 'yellow', 'lightgray'],
@@ -96,7 +102,8 @@ endif
 
 
 " General Options --------------------------------------------------- {{{
-colorscheme base16-railscasts	" Use 'base16-railscasts' colorscheme
+"colorscheme base16-railscasts	" Use 'base16-railscasts' colorscheme
+colorscheme gruvbox	" Use 'base16-railscasts' colorscheme
 if &diff
 	set bg=light
 	colorscheme PaperColor		" Use bright colorscheme for vimdiff
@@ -108,7 +115,7 @@ endif
 nnoremap \Q :nohlsearch<CR>:MarkClear<CR>
 
 " Map key for TagList plugin (show functions)
-nnoremap <leader>f :TlistOpen<CR>:setlocal mouse=a<CR>
+nnoremap <leader>f :TlistOpen<CR>:vertical resize 50<CR>
 
 " Map key/command for PlugUpdate function (update plugins)
 nnoremap <leader>update :PlugUpdate<CR>
@@ -118,6 +125,9 @@ nnoremap <leader>clean :PlugClean!<CR>
 
 " Map key for Tagbar plugin (show tags)
 nnoremap <silent> <leader>b :TagbarToggle<CR>
+
+" Map key for Gundo
+nnoremap <leader>u :GundoToggle<CR>
 " }}}
 
 
@@ -131,7 +141,7 @@ function! MyReadonly()
 endfunction
 
 function! MyLineNumber()
-	return line(".")
+	return line(".") . ':' . col(".")
 endfunction
 
 function! MyFilename()
