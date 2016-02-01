@@ -23,14 +23,12 @@ Plug 'https://github.com/majutsushi/tagbar.git'
 Plug 'https://github.com/vim-scripts/Mark--Karkat'
 Plug 'https://github.com/kshenoy/vim-signature'
 Plug 'https://github.com/jamessan/vim-gnupg'
-Plug 'https://github.com/chriskempson/base16-vim'
 Plug 'https://github.com/justinmk/vim-syntax-extra'
 Plug 'https://github.com/ap/vim-buftabline'
 Plug 'https://github.com/junegunn/vim-peekaboo'
 Plug 'https://github.com/Yggdroot/indentLine'
 Plug 'https://github.com/mhinz/vim-startify'
 Plug 'https://github.com/luochen1990/rainbow'
-Plug 'https://github.com/NLKNguyen/papercolor-theme'
 Plug 'https://github.com/vim-scripts/unmaze.vim'
 Plug 'https://github.com/tpope/vim-commentary'
 Plug 'https://github.com/will133/vim-dirdiff'
@@ -40,6 +38,7 @@ Plug 'https://github.com/sjl/gundo.vim'
 Plug 'https://github.com/nelstrom/vim-visual-star-search'
 Plug 'https://github.com/MattesGroeger/vim-bookmarks'
 Plug 'https://github.com/morhetz/gruvbox'
+Plug 'https://github.com/AlessandroYorba/Alduin'
 
 call plug#end()
 
@@ -102,11 +101,9 @@ endif
 
 
 " General Options --------------------------------------------------- {{{
-"colorscheme base16-railscasts	" Use 'base16-railscasts' colorscheme
-colorscheme gruvbox	" Use 'base16-railscasts' colorscheme
+colorscheme gruvbox	" Use 'gruvbox' colorscheme
 if &diff
-	set bg=light
-	colorscheme PaperColor		" Use bright colorscheme for vimdiff
+	colorscheme alduin	" Use 'alduin' colorscheme
 endif
 " }}}
 
