@@ -1,11 +1,8 @@
 set nocompatible				" Makes vim behave in a more useful way than vi-compatible mode
 
 " Initialize --------------------------------------------------------- {{{
-if !filereadable(expand('$HOME/.vimrc'))
-	echo "Linking .vimrc..."
-	echo ""
-	silent !ln -s $HOME/.vim/vimrc $HOME/vimrc
-endif
+let _myvimdir = fnamemodify(expand("$MYVIMRC"), ":p:h")
+let _myvimrcplugins = expand(_myvimdir . "/vimrc.plugins")
 " }}}
 
 
@@ -41,17 +38,13 @@ set noswapfile					" Don't use a swap file
 set nobackup					" Don't use a backup file
 set diffopt+=iwhite				" Ignore whitespace in vimdiff
 set listchars=tab:▸\ ,trail:·,extends:#,nbsp:·
-set wildmenu                    " make tab completion for files/buffers act like bash
+set wildmenu					" make tab completion for files/buffers act like bash
 set wildmode=list:longest		" show a list when pressing tab and complete
-                                " first full match
+								" first full match
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.a
 
 filetype plugin indent on		" Enable filetype detection, and load the plugin and indent files for that filetype
 runtime macros/matchit.vim		" Enhance % command with built-in plugin
-if &diff
-	set bg=light
-	colorscheme morning			" Use bright colorscheme for vimdiff
-endif
 
 " Currently unused
 "set expandtab					" Insert spaces instead of tab character
@@ -113,14 +106,14 @@ if has ("cscope")
 	" The following maps all invoke one of the following cscope search types:
 	" (note: <C-@> = <C-Space> = Ctrl+Space
 	"
-	"   's'   symbol: find all references to the token under cursor
-	"   'g'   global: find global definition(s) of the token under cursor
-	"   'c'   calls:  find all calls to the function name under cursor
-	"   't'   text:   find all instances of the text under cursor
-	"   'e'   egrep:  egrep search for the word under cursor
-	"   'f'   file:   open the filename under cursor
-	"   'i'   includes: find files that include the filename under cursor
-	"   'd'   called: find functions that function under cursor calls
+	"	's'   symbol: find all references to the token under cursor
+	"	'g'   global: find global definition(s) of the token under cursor
+	"	'c'   calls:  find all calls to the function name under cursor
+	"	't'   text:   find all instances of the text under cursor
+	"	'e'   egrep:  egrep search for the word under cursor
+	"	'f'   file:   open the filename under cursor
+	"	'i'   includes: find files that include the filename under cursor
+	"	'd'   called: find functions that function under cursor calls
 	nmap <C-@>s :cs find s <C-R>=expand("<cword>")<CR><CR>
 	nmap <C-@>g :cs find g <C-R>=expand("<cword>")<CR><CR>
 	nmap <C-@>c :cs find c <C-R>=expand("<cword>")<CR><CR>
@@ -182,12 +175,6 @@ nnoremap <leader>j :setlocal encoding=sjis<CR>:setlocal fileencodings=cp932<CR>:
 nnoremap <C-j> <C-e>
 nnoremap <C-k> <C-y>
 
-" Disable arrow keys to force learning hjkl
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-nnoremap <left> <nop>
-nnoremap <right> <nop>
-
 " Map key for DiffSaved function
 nnoremap <leader>shit :DiffSaved<CR>
 
@@ -207,7 +194,7 @@ nnoremap <C-N> :bnext<CR>
 nnoremap <C-P> :bprev<CR>
 
 " Keymappings for easy editing for vimrc file
-nnoremap <leader>ev :vsplit $MYVIMRC<CR>
+nnoremap <leader>ev :vsplit $MYVIMRC<CR>:exec("split " . _myvimrcplugins)<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
 " Vertical split for tags
@@ -341,10 +328,9 @@ if has("autocmd")
 endif
 " }}}
 
-
 " Persistent Undo -------------------------------------------------- {{{
 if has('persistent_undo')
-	let _undodir = expand('$HOME/.vim/undo')
+	let _undodir = expand(_myvimdir . "/undo")
 
 	" Create $HOME/.vim/undo if it doesn't already exist
 	silent call system('mkdir -p ' . _undodir)
@@ -361,7 +347,7 @@ autocmd BufWritePost *.c,*.h call UpdateTags()
 "  }}}
 
 " Plugins ------------------------------------------------------------ {{{
-if filereadable(expand("$HOME/.vim/vimrc.plugins"))
-	source $HOME/.vim/vimrc.plugins
+if filereadable(_myvimrcplugins)
+	execute 'source ' . _myvimrcplugins
 endif
 " }}}

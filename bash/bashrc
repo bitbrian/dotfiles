@@ -311,11 +311,9 @@ fi
 alias t='python ~/Code/t/t.py --task-dir ~/Dropbox/Tasks --list tasks --delete-if-empty'
 alias ifconfig.me='curl ifconfig.me'
 alias cmus='cd ~/Music/songs && cmus && cd -'
-alias grep='grep 2>/dev/null -I --exclude=tags --exclude=cscope* --exclude-dir=.git --exclude-dir=.svn -n --color=auto'
-alias ag='-;ag'
+alias grep='grep 2>/dev/null -I --exclude=tags --exclude=cscope* --exclude-dir=.git --exclude-dir=.svn -n --color=auto --exclude-dir=builds'
 alias branches='git log --all --graph --decorate --oneline --simplify-by-decoration'
 alias clea='clear'
-alias less='vimpager'
 alias rls='ls'
 alias df='df -h'
 alias du='du -h'
@@ -336,7 +334,6 @@ export EDITOR=vim
 export HISTFILE="${HOME}/.history/$(date -u +%Y/%m/%d.%H.%M.%S)_${HOSTNAME}_$$"
 export HISTIGNORE=$'[ \t]*:&:[fb]g:exit:ls:pwgrep*:pwedit*:pwcat*'
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoreboth
-export PAGER=vimpager
 
 # Make vim show 256 colors properly even when using tmux
 if [[ -z $TMUX ]]; then
