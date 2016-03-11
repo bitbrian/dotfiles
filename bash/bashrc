@@ -109,6 +109,9 @@ function prompt() {
 
 	prompt='\[\e[00m\]\[\e[1;31m\][\u\[\e[0;37m\]@\h\[\e[1;31m\]]\[\e[00m\]\[\e[0;33m\]$(working_directory)\[\e[00m\]'
 	PS1=$prompt$exit_status
+
+	# Record each line as it gets issued
+	history -a
 }
 
 function cgrep() {
@@ -311,11 +314,9 @@ fi
 alias t='python ~/Code/t/t.py --task-dir ~/Dropbox/Tasks --list tasks --delete-if-empty'
 alias ifconfig.me='curl ifconfig.me'
 alias cmus='cd ~/Music/songs && cmus && cd -'
-alias grep='grep 2>/dev/null -I --exclude=tags --exclude=cscope* --exclude-dir=.git --exclude-dir=.svn -n --color=auto'
-alias ag='-;ag'
+alias grep='grep 2>/dev/null -I --exclude=tags --exclude=cscope* --exclude-dir=.git --exclude-dir=.svn -n --color=auto --exclude-dir=builds'
 alias branches='git log --all --graph --decorate --oneline --simplify-by-decoration'
 alias clea='clear'
-alias less='vimpager'
 alias rls='ls'
 alias df='df -h'
 alias du='du -h'
@@ -334,9 +335,8 @@ export LC_ALL=en_US.UTF-8
 export GIT_EDITOR=vim
 export EDITOR=vim
 export HISTFILE="${HOME}/.history/$(date -u +%Y/%m/%d.%H.%M.%S)_${HOSTNAME}_$$"
-export HISTIGNORE=$'[ \t]*:&:[fb]g:exit:ls:pwgrep*:pwedit*:pwcat*'
+export HISTIGNORE=$'[ \t]*:&:[fb]g:exit:ls:bg:fg:clear:history:pwgrep*:pwedit*:pwcat*'
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoreboth
-export PAGER=vimpager
 
 # Make vim show 256 colors properly even when using tmux
 if [[ -z $TMUX ]]; then
@@ -372,10 +372,16 @@ set convert-meta off
 # Keybindings -------------------------------------------------------------
 bind '"\C-k": kill-whole-line'
 bind '"\C-w": shell-kill-word'
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+bind '"\e[C": forward-char'
+bind '"\e[D": backward-char'
 
 
 # Options -----------------------------------------------------------------
-shopt -s histappend				# Append rather than overwrite the history on disk
-shopt -s cdspell				# Ignore small typos when changing directory
-shopt -s nocaseglob				# Case-insensitive filename globbing
-shopt -s checkwinsize			# Update LINES and COLUMNS based on window size
+shopt -s histappend 2> /dev/null	# Append rather than overwrite the history on disk
+shopt -s cdspell 2> /dev/null		# Ignore small typos when changing directory
+shopt -s dirspell 2> /dev/null		# Ignore small typos when using tab completion
+shopt -s nocaseglob 2> /dev/null	# Case-insensitive filename globbing
+shopt -s checkwinsize 2> /dev/null	# Update LINES and COLUMNS based on window size
+shopt -s cmdhist 2> /dev/null		# Save multi-line commands as one command
