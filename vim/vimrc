@@ -38,9 +38,9 @@ set noswapfile					" Don't use a swap file
 set nobackup					" Don't use a backup file
 set diffopt+=iwhite				" Ignore whitespace in vimdiff
 set listchars=tab:▸\ ,trail:·,extends:#,nbsp:·
-set wildmenu                    " make tab completion for files/buffers act like bash
+set wildmenu					" make tab completion for files/buffers act like bash
 set wildmode=list:longest		" show a list when pressing tab and complete
-                                " first full match
+								" first full match
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.a
 
 filetype plugin indent on		" Enable filetype detection, and load the plugin and indent files for that filetype
@@ -106,14 +106,14 @@ if has ("cscope")
 	" The following maps all invoke one of the following cscope search types:
 	" (note: <C-@> = <C-Space> = Ctrl+Space
 	"
-	"   's'   symbol: find all references to the token under cursor
-	"   'g'   global: find global definition(s) of the token under cursor
-	"   'c'   calls:  find all calls to the function name under cursor
-	"   't'   text:   find all instances of the text under cursor
-	"   'e'   egrep:  egrep search for the word under cursor
-	"   'f'   file:   open the filename under cursor
-	"   'i'   includes: find files that include the filename under cursor
-	"   'd'   called: find functions that function under cursor calls
+	"	's'   symbol: find all references to the token under cursor
+	"	'g'   global: find global definition(s) of the token under cursor
+	"	'c'   calls:  find all calls to the function name under cursor
+	"	't'   text:   find all instances of the text under cursor
+	"	'e'   egrep:  egrep search for the word under cursor
+	"	'f'   file:   open the filename under cursor
+	"	'i'   includes: find files that include the filename under cursor
+	"	'd'   called: find functions that function under cursor calls
 	nmap <C-@>s :cs find s <C-R>=expand("<cword>")<CR><CR>
 	nmap <C-@>g :cs find g <C-R>=expand("<cword>")<CR><CR>
 	nmap <C-@>c :cs find c <C-R>=expand("<cword>")<CR><CR>
@@ -327,7 +327,6 @@ if has("autocmd")
 	"autocmd BufWritePre * :%s/\s\+$//e | retab
 endif
 " }}}
-
 
 " Persistent Undo -------------------------------------------------- {{{
 if has('persistent_undo')
