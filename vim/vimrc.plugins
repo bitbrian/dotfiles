@@ -101,9 +101,10 @@ endif
 
 
 " General Options --------------------------------------------------- {{{
-colorscheme gruvbox	" Use 'gruvbox' colorscheme
 if &diff
 	colorscheme alduin	" Use 'alduin' colorscheme
+else
+	colorscheme gruvbox	" Use 'gruvbox' colorscheme
 endif
 " }}}
 

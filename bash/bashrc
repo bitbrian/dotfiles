@@ -110,6 +110,11 @@ function prompt() {
 	prompt='\[\e[00m\]\[\e[1;31m\][\u\[\e[0;37m\]@\h\[\e[1;31m\]]\[\e[00m\]\[\e[0;33m\]$(working_directory)\[\e[00m\]'
 	PS1=$prompt$exit_status
 
+	# Create the history folder if it doesn't exist
+	if [ ! -d "$HISTDIR" ]; then
+		mkdir -p "$HISTDIR"
+	fi
+
 	# Record each line as it gets issued
 	history -a
 }
@@ -183,7 +188,7 @@ function -() {
 function ver {
 	if [[ $# > 0 ]]
 	then
-		strings -n 20 "$1" | tail -n 1 | awk '{print $1}'
+		strings -n 20 "$1" | tail -n 1 
 	fi
 }
 
@@ -334,7 +339,8 @@ export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export GIT_EDITOR=vim
 export EDITOR=vim
-export HISTFILE="${HOME}/.history/$(date -u +%Y/%m/%d.%H.%M.%S)_${HOSTNAME}_$$"
+export HISTDIR="${HOME}/.history/$(date -u +%Y/%m/%d)"
+export HISTFILE="${HISTDIR}/${HOSTNAME}_$$"
 export HISTIGNORE=$'[ \t]*:&:[fb]g:exit:ls:bg:fg:clear:history:pwgrep*:pwedit*:pwcat*'
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoreboth
 
