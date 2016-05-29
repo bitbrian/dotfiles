@@ -224,9 +224,14 @@ function pass() {
 ##
 ## Simple password management in ksh-compatible shell
 ## You'll need a unix-like system and a working GPG configuration
+function pwtail() {
+	ASCFILE=$HOME/.auth/pwdb.asc
+	gpg -q -d -r $GPGKEY $ASCFILE | tail $*
+}
+
 function pwgrep() {
 	ASCFILE=$HOME/.auth/pwdb.asc
-	gpg -q -d -r $GPGKEY $ASCFILE | grep $*
+	gpg -q -d -r $GPGKEY $ASCFILE | grep -i $*
 }
 
 function pwcat() {
@@ -341,7 +346,7 @@ export GIT_EDITOR=vim
 export EDITOR=vim
 export HISTDIR="${HOME}/.history/$(date -u +%Y/%m/%d)"
 export HISTFILE="${HISTDIR}/${HOSTNAME}_$$"
-export HISTIGNORE=$'[ \t]*:&:[fb]g:exit:ls:bg:fg:clear:history:pwgrep*:pwedit*:pwcat*'
+export HISTIGNORE=$'[ \t]*:&:[fb]g:exit:ls:bg:fg:clear:history:pwgrep*:pwedit*:pwcat*:pwtail*'
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoreboth
 
 # Make vim show 256 colors properly even when using tmux
