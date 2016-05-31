@@ -396,3 +396,6 @@ shopt -s dirspell 2> /dev/null		# Ignore small typos when using tab completion
 shopt -s nocaseglob 2> /dev/null	# Case-insensitive filename globbing
 shopt -s checkwinsize 2> /dev/null	# Update LINES and COLUMNS based on window size
 shopt -s cmdhist 2> /dev/null		# Save multi-line commands as one command
+
+# Read in all bash_history files
+for f in `find ~/.history -type f`; do history -r $f; done
