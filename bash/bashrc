@@ -208,7 +208,7 @@ function stock() {
 	curl -s "http://download.finance.yahoo.com/d/quotes.csv?s=$1&f=l1"
 }
 
-function pass() {
+function genpass() {
 	if [[ $# > 0 ]]
 	then
 		if [[ $OSTYPE == darwin* ]]; then
@@ -217,7 +217,7 @@ function pass() {
 			pwgen -sy $* 1
 		fi
 	else
-		echo "Usage: pass <length> [<options>]"
+		echo "Usage: genpass <length> [<options>]"
 	fi
 }
 
