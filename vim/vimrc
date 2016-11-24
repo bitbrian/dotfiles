@@ -23,6 +23,7 @@ endif
 set incsearch					" Incremental search
 set ic							" Ignore case when searching ...
 set smartcase					" ... except explicit CAPS
+set previewheight=24			" Change the height of the preview window
 set hlsearch					" Highlight all search results
 set nocompatible				" Makes vim behave in a more useful way than vi-compatible mode
 set exrc						" Execute .vimrc files present in working directory
