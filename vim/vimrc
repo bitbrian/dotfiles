@@ -42,7 +42,8 @@ set timeoutlen=300				" Change timeout for mapped keys to 300ms
 set noswapfile					" Don't use a swap file
 set nobackup					" Don't use a backup file
 set diffopt+=iwhite				" Ignore whitespace in vimdiff
-set listchars=tab:▸\ ,trail:·,extends:#,nbsp:·
+set showbreak=↪\ 
+set listchars=tab:▸\ ,trail:·,eol:↲,extends:#,nbsp:·
 set wildmenu					" make tab completion for files/buffers act like bash
 set wildmode=list:longest		" show a list when pressing tab and complete
 								" first full match
