@@ -81,19 +81,17 @@ URxvt*thickness:          15
 ! scrollbar color
 URxvt*scrollColor:        #d4cfc9
 
+! scrollback buffer size
+Urxvt*saveLines:         20000
+
 URxvt*termName: xterm-256color
 URxvt*loginShell: true
 URxvt*fading: 30
 
-
-! make links clickable
-! URxvt.perl-ext-common: default,matcher
-! URxvt.url-launcher: /usr/bin/xdg-open
-! URxvt.matcher.button: 2
-
 ! delimiters for double-click selection
 URxvt*cutchars:           BACKSLASH '"'&()*,;<=>?@[]^{|}
 
+! make <home> and <end> keys work properly
 URxvt*keysym.Home: \033[1~
 URxvt*keysym.End: \033[4~
 URxvt*keysym.KP_Home: \033[1~
