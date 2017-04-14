@@ -225,7 +225,11 @@ function genpass() {
 ## Simple password management in ksh-compatible shell
 ## You'll need a unix-like system and a working GPG configuration
 function pwtail() {
+	if [[ -z "$1" ]]; then
 	ASCFILE=$HOME/.auth/pwdb.asc
+	else
+		ASCFILE=$1
+	fi
 	gpg -q -d -r $GPGKEY $ASCFILE | tail $*
 }
 
@@ -321,9 +325,9 @@ elif [[ $OSTYPE == linux* ]]; then
 	alias ls='ls --color=auto -F'
 	alias open='xdg-open'
 fi
-alias t='python ~/Code/t/t.py --task-dir ~/Dropbox/Tasks --list tasks --delete-if-empty'
+alias t='python ~/code/t/t.py --task-dir ~/Dropbox/Tasks --list tasks --delete-if-empty'
 alias ifconfig.me='curl ifconfig.me'
-alias cmus='cd ~/Music/songs && cmus && cd -'
+alias cmus='cd ~/music/songs && cmus && cd -'
 alias grep='grep 2>/dev/null -I --exclude=tags --exclude=cscope* --exclude-dir=.git --exclude-dir=.svn -n --color=auto --exclude-dir=builds'
 alias branches='git log --all --graph --decorate --oneline --simplify-by-decoration'
 alias clea='clear'
@@ -333,6 +337,9 @@ alias du='du -h'
 alias vi='vim'
 alias cd=cd_func
 alias tags='~/scripts/cscope_gen.sh'
+alias rmtags='rm ./tags && rm ./cscope.*'
+alias p2='sudo ln -sf /usr/bin/python2 /usr/bin/python'
+alias p3='sudo ln -sf /usr/bin/python3 /usr/bin/python'
 
 
 # Variables ---------------------------------------------------------------
@@ -347,7 +354,10 @@ export EDITOR=vim
 export HISTDIR="${HOME}/.history/$(date -u +%Y/%m/%d)"
 export HISTFILE="${HISTDIR}/${HOSTNAME}_$$"
 export HISTIGNORE=$'[ \t]*:&:[fb]g:exit:ls:bg:fg:clear:history:pwgrep*:pwedit*:pwcat*:pwtail*'
+export HISTSIZE=-1
+export HISTFILESIZE=-1
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoreboth
+export MP_FULLNAME=""
 
 # Make vim show 256 colors properly even when using tmux
 if [[ -z $TMUX ]]; then
