@@ -60,7 +60,7 @@ URxvt.boldItalicFont: xft:Liberation Mono:size=11:style=bold italic,xft:Liberati
 URxvt.borderColor: #2b2b2b
 
 ! default font spacing feels too wide to me
-URxvt.letterSpace: -1
+URxvt.letterSpace: -2
 
 ! do not scroll with output
 URxvt*scrollTtyOutput: false
