@@ -21,3 +21,6 @@ $if mode=vi
 	"\e[Z":""
 
 $endif
+
+# set visual bell
+set bell-style visual
