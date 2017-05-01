@@ -6,6 +6,16 @@ esac
 
 
 # Functions ---------------------------------------------------------------
+function weather ()
+{
+	if [[ -z "$1" ]]; then
+		CITY=Tokyo
+	else
+		CITY=$1
+	fi
+	curl -s wttr.in/$CITY | lolcat
+}
+
 function cd_func ()
 {
 	local x2 the_new_dir adir index
@@ -226,7 +236,7 @@ function genpass() {
 ## You'll need a unix-like system and a working GPG configuration
 function pwtail() {
 	if [[ -z "$1" ]]; then
-	ASCFILE=$HOME/.auth/pwdb.asc
+		ASCFILE=$HOME/.auth/pwdb.asc
 	else
 		ASCFILE=$1
 	fi
@@ -300,7 +310,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell/scripts/base16-railscasts.sh"
+BASE16_SHELL="$HOME/.config/base16-shell/base16-railscasts.dark.sh"
 if [[ -s $BASE16_SHELL ]]; then
 	source $BASE16_SHELL
 else
@@ -325,7 +335,6 @@ elif [[ $OSTYPE == linux* ]]; then
 	alias ls='ls --color=auto -F'
 	alias open='xdg-open'
 fi
-alias t='python ~/code/t/t.py --task-dir ~/Dropbox/Tasks --list tasks --delete-if-empty'
 alias ifconfig.me='curl ifconfig.me'
 alias cmus='cd ~/music/songs && cmus && cd -'
 alias grep='grep 2>/dev/null -I --exclude=tags --exclude=cscope* --exclude-dir=.git --exclude-dir=.svn -n --color=auto --exclude-dir=builds'
@@ -340,6 +349,8 @@ alias tags='~/scripts/cscope_gen.sh'
 alias rmtags='rm ./tags && rm ./cscope.*'
 alias p2='sudo ln -sf /usr/bin/python2 /usr/bin/python'
 alias p3='sudo ln -sf /usr/bin/python3 /usr/bin/python'
+alias updatetime='sudo ntpclient -s -h pool.ntp.org'
+alias x='dtrx'
 
 
 # Variables ---------------------------------------------------------------
