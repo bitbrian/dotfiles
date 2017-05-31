@@ -393,7 +393,7 @@ alias sd='svn diff -x "-p -u -w"'
 # Variables ---------------------------------------------------------------
 export PROMPT_COMMAND=prompt
 export PS2="--> "
-export PATH=/usr/local/sbin:/usr/local/bin:~/scripts:~/bin:$PATH
+export PATH=/usr/local/sbin:/usr/local/bin:~/scripts:~/bin:$(ruby -rubygems -e 'puts Gem.user_dir')/bin:$PATH
 export GPGKEY=FFFFFFFF
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
