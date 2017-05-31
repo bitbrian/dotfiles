@@ -1,0 +1,16 @@
+[address book]
+	path = ~/contacts
+
+
+[color]
+	age   = true
+	bday  = true
+	email = true
+	ls    = true
+	name  = true
+	nick  = true
+	org   = true
+	phone = true
+	post  = true
+	show  = true
+	url   = true
