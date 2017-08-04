@@ -19,6 +19,7 @@ if &diff
 	set nocursorline			" Don't highlight the current line when doing a diff
 else
 	set cursorline				" Highlight the current line
+	set lazyredraw				" Don't slow down even with cursorline enabled
 endif
 set incsearch					" Incremental search
 set ic							" Ignore case when searching ...
@@ -48,6 +49,7 @@ set wildmenu					" make tab completion for files/buffers act like bash
 set wildmode=list:longest		" show a list when pressing tab and complete
 								" first full match
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.a
+set grepprg=grep\ 2>/dev/null\ -I\ --exclude=tags\ --exclude=cscope*\ --exclude-dir=.git\ --exclude-dir=.svn\ --exclude-dir=builds\ -nrH\ --color=auto\ $*\ /dev/null
 
 filetype plugin indent on		" Enable filetype detection, and load the plugin and indent files for that filetype
 runtime macros/matchit.vim		" Enhance % command with built-in plugin
@@ -206,6 +208,9 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 " Vertical split for tags
 nnoremap <leader>vs :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 
+" :grep for word under cursor
+nnoremap <leader>g :grep <cword> *<CR>
+
 " List contents of all registers (that typically contain pasteable text).
 "nnoremap <silent> "" :registers "0123456789abcdefghijklmnopqrstuvwxyz*+.<CR>
 
@@ -277,23 +282,6 @@ function! DelTagOfFile(tagfile)
 	silent call system(cmd)
 endfunction
 
-function! UpdateTags()
-	let f = expand("%:t")
-
-	for tagfile in tagfiles()
-		if !filereadable(tagfile)
-			continue
-		endif
-
-		let tagfile = fnamemodify(tagfile, ':p')
-		let workdir = fnamemodify(tagfile, ':h')
-		let cmd = 'ctags --append --tag-relative=yes -f ' . tagfile . ' "' . f . '" &'
-		call DelTagOfFile(tagfile)
-		silent call system(cmd)
-		break
-	endfor
-endfunction
-
 " Run a given vim command on the results of fuzzy selecting from a given shell
 " command. See usage below.
 function! SelectaCommand(choice_command, selecta_args, vim_command)
@@ -314,6 +302,13 @@ endfunction
 nnoremap <leader>o :call SelectaCommand("find * -type f", "", ":e")<cr>
 
 " }}}
+
+" Automatically open the quickfix window after :make :grep :vimgrep
+augroup myvimrc
+    autocmd!
+    autocmd QuickFixCmdPost [^l]* copen
+    autocmd QuickFixCmdPost l*    lopen
+augroup END
 
 
 " Srt Specific ----------------------------------------------------- {{{
@@ -366,10 +361,6 @@ if has('persistent_undo')
 	set undolevels=1000			" How many undos
 	set undoreload=10000		" number of lines to save for undo
 endif
-"  }}}
-
-" Testing ---------------------------------------------------------- {{{
-autocmd BufWritePost *.c,*.h call UpdateTags()
 "  }}}
 
 " Plugins ------------------------------------------------------------ {{{

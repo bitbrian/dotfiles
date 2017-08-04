@@ -89,7 +89,7 @@ URxvt*loginShell: true
 URxvt*fading: 30
 
 ! delimiters for double-click selection
-URxvt*cutchars:           BACKSLASH '"'&()*,;<=>?@[]^{|}
+URxvt*cutchars:           BACKSLASH '"'&()*,-;<=>?@[]^{|}
 
 ! make <home> and <end> keys work properly
 URxvt*keysym.Home: \033[1~
