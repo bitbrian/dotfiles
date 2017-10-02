@@ -6,6 +6,23 @@ esac
 
 
 # Functions ---------------------------------------------------------------
+function notes() {
+  if [ ! -z "$1" ]; then
+    # Using the "$@" here will take all parameters passed into
+    # this function so we can place everything into our file.
+    echo "$@" >> "$HOME/notes.md"
+  else
+    # If no arguments were passed we will take stdin and place
+    # it into our notes instead.
+    cat - >> "$HOME/notes.md"
+  fi
+}
+
+function sizeof ()
+{
+	ls -lrt $* | awk '{ total += $5 }; END { print total }' | numfmt --to=iec-i --suffix=B --padding=7
+}
+
 function weather ()
 {
 	if [[ -z "$1" ]]; then
@@ -264,6 +281,10 @@ function proxy_off(){
     unset https_proxy
     unset ftp_proxy
     unset rsync_proxy
+    unset HTTP_PROXY
+    unset HTTPS_PROXY
+    unset FTP_PROXY
+    unset RSYNC_PROXY
 	echo -e "Proxy turned off";
 }
 
@@ -321,13 +342,13 @@ function pwedit() {
 	if [[ -z "$1" ]]; then
 		ASCFILE=$HOME/.auth/pwdb.asc
 	else
-		if [[ -f "$1" ]]; then
-			ASCFILE=$1
+		if [[ -f "$1.asc" ]]; then
+			ASCFILE=$1.asc
 		else
 			if [[ -f "$HOME/.auth/$1.asc" ]]; then
 				ASCFILE=$HOME/.auth/$1.asc
 			else
-				ASCFILE=$1
+				ASCFILE=$1.asc
 			fi
 		fi
 	fi
@@ -388,6 +409,7 @@ alias p3='sudo ln -sf /usr/bin/python3 /usr/bin/python'
 alias updatetime='sudo ntpclient -s -h pool.ntp.org'
 alias x='dtrx'
 alias sd='svn diff -x "-p -u -w"'
+alias lt='ls -tr1'
 
 
 # Variables ---------------------------------------------------------------
@@ -436,6 +458,10 @@ set meta-flag on
 set input-meta on
 set output-meta on
 set convert-meta off
+bind 'set show-all-if-ambiguous on'
+bind 'set show-all-if-unmodified on'
+bind 'set completion-prefix-display-length 2'
+bind 'set colored-completion-prefix on'
 
 
 # Keybindings -------------------------------------------------------------
